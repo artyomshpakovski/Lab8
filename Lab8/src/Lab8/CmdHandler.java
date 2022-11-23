@@ -1,5 +1,7 @@
 package Lab8;
 
-public class CmdHandler {
-
+public interface CmdHandler 
+{
+	boolean onCommand( int[] errorCode );
 }
+

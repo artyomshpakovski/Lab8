@@ -9,6 +9,6 @@ public class MessageCheckMail extends Message implements Serializable
 
 	public MessageCheckMail() 
 	{
-		super( Protocol.CMD_CHECK_MAIL );
+		super( Protocol.CMD_ORDER );
 	}
 }

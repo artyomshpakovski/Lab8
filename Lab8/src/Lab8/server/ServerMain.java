@@ -151,6 +151,8 @@ class ServerStopThread extends CommandThread {
 	
 	static final String cmd  = "q";
 	static final String cmdL = "quit";
+	static final String cmdO = "o";
+	static final String cmdOrders = "orders";
 	
 	Scanner fin; 
 	
@@ -162,7 +164,8 @@ class ServerStopThread extends CommandThread {
 			public boolean onCommand(int[] errorCode) {	return onCmdQuit(); }				
 		});
 		this.setDaemon(true);
-		System.err.println( "Enter \'" + cmd + "\' or \'" + cmdL + "\' to stop server\n" );
+		System.err.println( "Enter \'" + cmd + "\' or \'" + cmdL + "\' to stop server" );
+		System.err.println("Enter \'" + cmdO + "\'or \'"+cmdOrders + "\' to see odrers\n");
 //		System.err.println( "            Menu: \n\n"
 //				+ "  Starters:\n"
 //				+ "       Garlic Bread          2.50$\n"
@@ -264,14 +267,10 @@ class ServerThread extends Thread {
 				Message msg = null;
 				try {
 					msg = ( Message ) is.readObject();
-				} catch (IOException e) 
-				{
-				} 
-				catch (ClassNotFoundException e)
-				{
+				} catch (IOException e) {
+				} catch (ClassNotFoundException e) {
 				}
-				if (msg != null) switch ( msg.getID() )
-				{
+				if (msg != null) switch ( msg.getID() ) {
 			
 					case Protocol.CMD_CONNECT:
 						if ( !connect( (MessageConnect) msg )) 
@@ -281,16 +280,8 @@ class ServerThread extends Thread {
 					case Protocol.CMD_DISCONNECT:
 						return;
 						
-					case Protocol.CMD_USER:
-						user(( MessageUser ) msg);
-						break;
-						
-					case Protocol.CMD_CHECK_MAIL:
-						checkMail(( MessageCheckMail ) msg );
-						break;
-						
-					case Protocol.CMD_LETTER:
-						letter(( MessageLetter ) msg );
+					case Protocol.CMD_ORDER:
+						order(( MessageLetter ) msg );
 						break;					
 				}
 			}	
@@ -316,18 +307,9 @@ class ServerThread extends Thread {
 		}
 	}
 	
-	void letter( MessageLetter msg ) throws IOException 
+	void order( MessageLetter msg ) throws IOException 
 	{
-		
-		ServerThread user = ServerMain.getUser( msg.usrNic );
-//		if ( user == null )
-//		{
-//			os.writeObject( new MessageLetterResult( 
-//					"User " + msg.usrNic + " is not found" ));
-//		} else {
-			user.addLetter( userNic + ": " + msg.txt );
-			os.writeObject( new MessageLetterResult());
-//		}
+		System.err.println("User " + userNic + " ordered " + msg.ord + " to address " + msg.address);
 	}
 	
 	void user( MessageUser msg ) throws IOException {

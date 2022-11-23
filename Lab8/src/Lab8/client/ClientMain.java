@@ -73,7 +73,9 @@ public class ClientMain {
 						Message msg = getCommand(ses, in);
 						if (! processCommand(ses, msg, is, os)) {
 							break;
-						}				
+						}
+						else {
+						}
 					}			
 				} finally {
 					closeSession(ses, os);
@@ -117,14 +119,9 @@ public class ClientMain {
 			switch ( cmd ) {
 				case -1:
 					return null;
-				case Protocol.CMD_CHECK_MAIL:
-					return new MessageCheckMail();
-				case Protocol.CMD_USER:
-					return new MessageUser();
-				case Protocol.CMD_LETTER:
+				case Protocol.CMD_ORDER:
 					return inputLetter(in);
-				case 0:
-					continue;
+				
 				default: 
 					System.err.println("Unknow command!");
 					continue;
@@ -135,24 +132,20 @@ public class ClientMain {
 	
 	static MessageLetter inputLetter(Scanner in) 
 	{
-		String usrNic, letter;
+		String ord, letter;
 		System.out.print("Enter your order: ");
-		usrNic = in.nextLine();
-		System.out.print("Enter your address : ");
+		ord = in.nextLine();
+		System.out.print("Enter your address: ");
 		letter = in.nextLine();
-		return new MessageLetter(usrNic, letter);
+		return new MessageLetter(ord, letter);
 	}
 	
 	static TreeMap<String,Byte> commands = new TreeMap<String,Byte>();
 	static {
 		commands.put("q", new Byte((byte) -1));
 		commands.put("quit", new Byte((byte) -1));
-		commands.put("m", new Byte(Protocol.CMD_CHECK_MAIL));
-		commands.put("mail", new Byte(Protocol.CMD_CHECK_MAIL));
-		commands.put("u", new Byte(Protocol.CMD_USER));
-		commands.put("users", new Byte(Protocol.CMD_USER));
-		commands.put("l", new Byte(Protocol.CMD_LETTER));
-		commands.put("letter", new Byte(Protocol.CMD_LETTER));
+		commands.put("o", new Byte(Protocol.CMD_ORDER));
+		commands.put("order", new Byte(Protocol.CMD_ORDER));
 	}
 	
 	static byte translateCmd(String str) 
@@ -191,7 +184,7 @@ public class ClientMain {
 				+ "       Champagne             6.50$\n"
 				+ "       Orange juice          2.99$\n"
 				+ "       Apple juice           2.99$\n");
-		System.out.print("(q)uit/(m)ail/(u)sers/(l)etter >");
+		System.out.print("(q)uit/(o)rder >");
 		System.out.flush();
 	}
 	
@@ -200,54 +193,19 @@ public class ClientMain {
             throws IOException, ClassNotFoundException {
 		if ( msg != null )
 		{
+			System.err.println("MSG IS NOT NULL");
 			os.writeObject(msg);
 			MessageResult res = (MessageResult) is.readObject();
+			System.err.println("line 198 is working");
 			if ( res.Error()) {
 				System.err.println(res.getErrorMessage());
+				System.err.println("CCCCCCCC resgetID got");
 			} else {
-				switch (res.getID()) {
-					case Protocol.CMD_CHECK_MAIL:
-						printMail(( MessageCheckMailResult ) res);
-						break;
-					case Protocol.CMD_USER:
-						printUsers(( MessageUserResult ) res);
-						break;
-					case Protocol.CMD_LETTER:
-						System.out.println("OK...");
-						break;
-					default:
-						assert(false);
-						break;
+				System.out.println("Accepted...");
 				}
-			}
+			System.err.println("RETURN TRUE IS WORKING");
 			return true;
 		}
-		return false;
-	}
-	
-	static void printMail(MessageCheckMailResult m)
-	{
-		if ( m.letters != null && m.letters.length > 0) 
-		{
-			System.out.println("Your mail {");
-			for (String str: m.letters) {
-				System.out.println(str);
-			}
-			System.out.println("}");
-		}
-		else {
-			System.out.println("No mail...");		
-		}
-	}
-	
-	static void printUsers(MessageUserResult m) {
-		if ( m.userNics != null ) 
-		{
-			System.out.println("Users {");
-			for (String str: m.userNics) {
-				System.out.println("\t" + str);
-			}	
-			System.out.println("}");
-		}
+		return false;	
 	}
 }

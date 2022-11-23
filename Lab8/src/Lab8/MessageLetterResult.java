@@ -15,6 +15,6 @@ public class MessageLetterResult extends MessageResult implements Serializable {
 	public MessageLetterResult() 
 	{ // No errors
 		
-		super( Protocol.CMD_LETTER );
+		super( Protocol.CMD_ORDER );
 	}
 }

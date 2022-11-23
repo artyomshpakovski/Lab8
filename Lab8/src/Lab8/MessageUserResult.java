@@ -11,12 +11,12 @@ public class MessageUserResult extends MessageResult implements Serializable
 	
 	public MessageUserResult( String errorMessage )
 	{ // Error
-		super( Protocol.CMD_USER, errorMessage );
+		super( Protocol.CMD_ORDER, errorMessage );
 	}
 	
 	public MessageUserResult( String[] userNics ) 
 	{ // No errors
-		super( Protocol.CMD_USER );
+		super( Protocol.CMD_ORDER );
 		this.userNics = userNics;
 	}
 }

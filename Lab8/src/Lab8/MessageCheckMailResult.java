@@ -12,11 +12,11 @@ Serializable {
 	public String[] letters = null;
 
 	public MessageCheckMailResult( String errorMessage ) { //Error
-		super( Protocol.CMD_CHECK_MAIL, errorMessage );
+		super( Protocol.CMD_ORDER, errorMessage );
 	}
 
 	public MessageCheckMailResult( String[] letters ) { // No errors
-		super( Protocol.CMD_CHECK_MAIL );
+		super( Protocol.CMD_ORDER );
 		this.letters = letters;
 	}
 

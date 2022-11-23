@@ -1,5 +1,6 @@
 package Lab8;
 
-public class ClientMain {
-
+public class ClientMain 
+{
+// комментарий
 }

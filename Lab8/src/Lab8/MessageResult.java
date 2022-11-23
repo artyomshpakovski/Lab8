@@ -8,7 +8,8 @@ public class MessageResult extends Message implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private int errorCode;
-	public int getErrorCode() {
+	public int getErrorCode() 
+	{
 		return errorCode;
 	}
 	public boolean Error() {

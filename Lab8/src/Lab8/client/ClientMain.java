@@ -25,7 +25,8 @@ import Lab8.client.ClientMain.Session;
 public class ClientMain {
 	// arguments: userNic userFullName [host]
 	public static void main(String[] args)  {
-		if (args.length < 2 || args.length > 3) {
+		if (args.length < 2 || args.length > 3) 
+		{
 			System.err.println(	"Invalid number of arguments\n" + "Use: nic name [host]" );
 			waitKeyToStop();
 			return;
@@ -54,12 +55,14 @@ public class ClientMain {
 		boolean connected = false;
 		String userNic = null;
 		String userName = null;
-		Session( String nic, String name ) {
+		Session( String nic, String name )
+{
 			userNic = nic;
 			userName = name;
 		}
 	}
-	static void session(Socket s, String nic, String name) {
+	static void session(Socket s, String nic, String name) 
+	{
 		try ( Scanner in = new Scanner(System.in);
 			  ObjectInputStream is = new ObjectInputStream(s.getInputStream());
 			  ObjectOutputStream os = new ObjectOutputStream(s.getOutputStream())) {
@@ -130,11 +133,12 @@ public class ClientMain {
 		return null;
 	}
 	
-	static MessageLetter inputLetter(Scanner in) {
+	static MessageLetter inputLetter(Scanner in) 
+	{
 		String usrNic, letter;
-		System.out.print("Enter user NIC: ");
+		System.out.print("Enter your order: ");
 		usrNic = in.nextLine();
-		System.out.print("Enter message : ");
+		System.out.print("Enter your address : ");
 		letter = in.nextLine();
 		return new MessageLetter(usrNic, letter);
 	}
@@ -151,15 +155,42 @@ public class ClientMain {
 		commands.put("letter", new Byte(Protocol.CMD_LETTER));
 	}
 	
-	static byte translateCmd(String str) {
+	static byte translateCmd(String str) 
+	{
 		// returns -1-quit, 0-invalid cmd, Protocol.CMD_XXX
 		str = str.trim();
 		Byte r = commands.get(str);
 		return (r == null ? 0 : r.byteValue());
 	}
 	
-	static void printPrompt() {
+	static void printPrompt() 
+	{
 		System.out.println();
+		System.out.println( "            Menu: \n\n"
+				+ "  Starters:\n"
+				+ "       Garlic Bread          2.50$\n"
+				+ "       Soup of the day       4.99$\n"
+				+ "       Olives                3.99$\n"
+	        	+ "       Prawn salad           4.99$\n"
+	        	+ "       Mozarella salad       4.50$\n\n"
+                + "  Main Courses:\n"
+				+ "       Margherita pizza      7.99$\n"
+				+ "       Roast chicken salad   9.50$\n"
+				+ "       Lasagne and salad     11.99\n"
+				+ "       Fish and chips        8.75$\n\n"
+				+ "  Desserts:\n"
+				+ "       Ice cream             3.99$\n"
+				+ "       Cheesecake            4.50$\n"
+				+ "       Fruit trifle          3.99$\n"
+				+ "       Ice cream             2.99$\n\n"
+				+ "  Drinks:\n"
+				+ "       Red/white wine        5.99$\n"
+				+ "       Beer                  3.25$\n"
+				+ "       Cola                  2.75$\n"
+				+ "       Lemonade              3.99$\n"
+				+ "       Champagne             6.50$\n"
+				+ "       Orange juice          2.99$\n"
+				+ "       Apple juice           2.99$\n");
 		System.out.print("(q)uit/(m)ail/(u)sers/(l)etter >");
 		System.out.flush();
 	}
@@ -194,8 +225,10 @@ public class ClientMain {
 		return false;
 	}
 	
-	static void printMail(MessageCheckMailResult m) {
-		if ( m.letters != null && m.letters.length > 0) {
+	static void printMail(MessageCheckMailResult m)
+	{
+		if ( m.letters != null && m.letters.length > 0) 
+		{
 			System.out.println("Your mail {");
 			for (String str: m.letters) {
 				System.out.println(str);
@@ -208,7 +241,8 @@ public class ClientMain {
 	}
 	
 	static void printUsers(MessageUserResult m) {
-		if ( m.userNics != null ) {
+		if ( m.userNics != null ) 
+		{
 			System.out.println("Users {");
 			for (String str: m.userNics) {
 				System.out.println("\t" + str);

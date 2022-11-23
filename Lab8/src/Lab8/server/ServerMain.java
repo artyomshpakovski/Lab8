@@ -163,31 +163,31 @@ class ServerStopThread extends CommandThread {
 		});
 		this.setDaemon(true);
 		System.err.println( "Enter \'" + cmd + "\' or \'" + cmdL + "\' to stop server\n" );
-		System.err.println( "            Menu: \n\n"
-				+ "  Starters:\n"
-				+ "       Garlic Bread          2.50$\n"
-				+ "       Soup of the day       4.99$\n"
-				+ "       Olives                3.99$\n"
-	        	+ "       Prawn salad           4.99$\n"
-	        	+ "       Mozarella salad       4.50$\n\n"
-                + "  Main Courses:\n"
-				+ "       Margherita pizza      7.99$\n"
-				+ "       Roast chicken salad   9.50$\n"
-				+ "       Lasagne and salad     11.99\n"
-				+ "       Fish and chips        8.75$\n\n"
-				+ "  Desserts:\n"
-				+ "       Ice cream             3.99$\n"
-				+ "       Cheesecake            4.50$\n"
-				+ "       Fruit trifle          3.99$\n"
-				+ "       Ice cream             2.99$\n\n"
-				+ "  Drinks:\n"
-				+ "       Red/white wine        5.99$\n"
-				+ "       Beer                  3.25$\n"
-				+ "       Cola                  2.75$\n"
-				+ "       Lemonade              3.99$\n"
-				+ "       Champagne             6.50$\n"
-				+ "       Orange juice          2.99$\n"
-				+ "       Apple juice           2.99$\n");
+//		System.err.println( "            Menu: \n\n"
+//				+ "  Starters:\n"
+//				+ "       Garlic Bread          2.50$\n"
+//				+ "       Soup of the day       4.99$\n"
+//				+ "       Olives                3.99$\n"
+//	        	+ "       Prawn salad           4.99$\n"
+//	        	+ "       Mozarella salad       4.50$\n\n"
+//                + "  Main Courses:\n"
+//				+ "       Margherita pizza      7.99$\n"
+//				+ "       Roast chicken salad   9.50$\n"
+//				+ "       Lasagne and salad     11.99\n"
+//				+ "       Fish and chips        8.75$\n\n"
+//				+ "  Desserts:\n"
+//				+ "       Ice cream             3.99$\n"
+//				+ "       Cheesecake            4.50$\n"
+//				+ "       Fruit trifle          3.99$\n"
+//				+ "       Ice cream             2.99$\n\n"
+//				+ "  Drinks:\n"
+//				+ "       Red/white wine        5.99$\n"
+//				+ "       Beer                  3.25$\n"
+//				+ "       Cola                  2.75$\n"
+//				+ "       Lemonade              3.99$\n"
+//				+ "       Champagne             6.50$\n"
+//				+ "       Orange juice          2.99$\n"
+//				+ "       Apple juice           2.99$\n");
 	} 
 	
 	public void run() {
@@ -264,10 +264,14 @@ class ServerThread extends Thread {
 				Message msg = null;
 				try {
 					msg = ( Message ) is.readObject();
-				} catch (IOException e) {
-				} catch (ClassNotFoundException e) {
+				} catch (IOException e) 
+				{
+				} 
+				catch (ClassNotFoundException e)
+				{
 				}
-				if (msg != null) switch ( msg.getID() ) {
+				if (msg != null) switch ( msg.getID() )
+				{
 			
 					case Protocol.CMD_CONNECT:
 						if ( !connect( (MessageConnect) msg )) 
@@ -297,7 +301,8 @@ class ServerThread extends Thread {
 		}
 	}
 	
-	boolean connect( MessageConnect msg ) throws IOException {
+	boolean connect( MessageConnect msg ) throws IOException 
+	{
 		
 		ServerThread old = register( msg.userNic, msg.userFullName );
 		if ( old == null )
@@ -311,17 +316,18 @@ class ServerThread extends Thread {
 		}
 	}
 	
-	void letter( MessageLetter msg ) throws IOException {
+	void letter( MessageLetter msg ) throws IOException 
+	{
 		
 		ServerThread user = ServerMain.getUser( msg.usrNic );
-		if ( user == null )
-		{
-			os.writeObject( new MessageLetterResult( 
-					"User " + msg.usrNic + " is not found" ));
-		} else {
+//		if ( user == null )
+//		{
+//			os.writeObject( new MessageLetterResult( 
+//					"User " + msg.usrNic + " is not found" ));
+//		} else {
 			user.addLetter( userNic + ": " + msg.txt );
 			os.writeObject( new MessageLetterResult());
-		}
+//		}
 	}
 	
 	void user( MessageUser msg ) throws IOException {
@@ -333,7 +339,8 @@ class ServerThread extends Thread {
 			os.writeObject( new MessageUserResult( "Unable to get users list" ));
 	}
 	
-	void checkMail( MessageCheckMail msg ) throws IOException {
+	void checkMail( MessageCheckMail msg ) throws IOException 
+	{
 
 		String[] lts = getLetters(); 
 		if ( lts != null )
@@ -342,8 +349,10 @@ class ServerThread extends Thread {
 			os.writeObject( new MessageCheckMailResult( "Unable to get mail" ));		
 	}
 	
+	
 	private boolean disconnected = false;
-	public void disconnect() {
+	public void disconnect() 
+	{
 		if ( ! disconnected )
 		try {			
 			System.err.println( addr.getHostName() + " disconnected" );
@@ -367,11 +376,12 @@ class ServerThread extends Thread {
 			userNic = null;
 		}		
 	}
-	
+
 	private ServerThread register( String nic, String name )
 	{
 		ServerThread old = ServerMain.registerUser( nic, this );
-		if ( old == null ) {
+		if ( old == null )
+		{
 			if ( userNic == null )
 			{
 				userNic = nic;
@@ -382,4 +392,4 @@ class ServerThread extends Thread {
 		return old;
 	}
 }
-
+// dmjfkdf

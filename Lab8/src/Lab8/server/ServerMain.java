@@ -311,27 +311,7 @@ class ServerThread extends Thread {
 	{
 		System.err.println("User " + userNic + " ordered " + msg.ord + " to address " + msg.address);
 	}
-	
-	void user( MessageUser msg ) throws IOException {
 		
-		String[] nics = ServerMain.getUsers();
-		if ( nics != null ) 
-			os.writeObject( new MessageUserResult( nics ));
-		else
-			os.writeObject( new MessageUserResult( "Unable to get users list" ));
-	}
-	
-	void checkMail( MessageCheckMail msg ) throws IOException 
-	{
-
-		String[] lts = getLetters(); 
-		if ( lts != null )
-			os.writeObject( new MessageCheckMailResult( lts ));
-		else
-			os.writeObject( new MessageCheckMailResult( "Unable to get mail" ));		
-	}
-	
-	
 	private boolean disconnected = false;
 	public void disconnect() 
 	{
